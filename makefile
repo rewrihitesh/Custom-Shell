@@ -24,3 +24,7 @@ alarm.o: alarm.cpp
 
 rm:
 	rm  main.o functions.o pipecmd.o export.o alias.o alarm.o
+
+clean: 
+	rm -f *.o
+	echo "done"

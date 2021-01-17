@@ -1,0 +1,18 @@
+echo hi
+ls
+clear
+exit
+ls
+ll
+echo $PS1
+mm
+msg
+exit
+./shell
+exit
+exit
+cat bashrc
+cat history
+cat history > newhistory
+exir
+exit

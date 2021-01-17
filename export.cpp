@@ -4,8 +4,7 @@ extern map<string,string> expmap;
 
 
 
-bool isExportCommand(string input)
-{
+bool isExportCommand(string input){
 	if(input.substr(0,6)=="export")
 		return true;
 	return false;

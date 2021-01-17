@@ -1,0 +1,42 @@
+echo hi
+ls
+clear
+exit
+ls
+ll
+echo $PS1
+mm
+msg
+exit
+./shell
+exit
+exit
+cat bashrc
+cat history
+cat history > newhistory
+exir
+exit
+top
+make
+top
+top
+top
+top
+top
+top
+make
+top
+exit
+exit
+top
+record start
+abhi="hi"
+echo $abhi
+export abhi="hi"
+export abhi
+./shell
+echo $abhi
+exit
+exit
+msg
+exit

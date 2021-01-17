@@ -21,8 +21,8 @@ string getmap(map<string,string> expmap)
 
 	return s;
 }
-void initShell()
-{
+void initShell(){
+
 	hist_file = fopen("history","a+");
 
 	if(getenv("varmap")!=NULL)
@@ -151,15 +151,24 @@ void readShellRC()
 
 void sigintHandler(int sig_num) 
 { 
-    signal(SIGINT, sigintHandler); 
+    signal(SIGINT, sigintHandler);
+    printf("hello.. im in signal handler\n"); 
     fflush(stdout); 
     fclose(hist_file);
+} 
+
+void sigChild(int sig_num) 
+{ 
+    signal(SIGINT, sigChild);
+    printf("hello.. im in child signal handler\n"); 
 } 
 
 int main()
 {
 
-	signal(SIGINT, sigintHandler);   
+	signal(SIGINT, SIG_IGN);   
+	
+	signal(SIGTSTP, SIG_IGN);
 	string input;	
 	int file_des;
 	cout<<endl<<"--------------------------------------"<<endl;
@@ -183,17 +192,16 @@ int main()
 		fflush(hist_file);
 		
 		
-		input = aliasFilter(input);
-
-		if(input.length()==0)
+		input = aliasFilter(input); // alias replace
+	
+	if(input.length()==0)
 			continue;
 		
 		getArguments(input,args_vector);
 		int vect_size = args_vector.size();
 		char  *args[vect_size+1];
 
-		if(input=="history")
-		{
+		if(input=="history"){
 			executeHistoryCommand();
 			continue;
 		}
@@ -234,8 +242,7 @@ int main()
 			continue;
 		}
 
-		if(input=="record start")
-		{
+		if(input=="record start"){
 			cout<<"Script Recordng Started....";
 			startRecording();
 			continue;
@@ -254,7 +261,7 @@ int main()
 		
 		if(child==0)
 		{
-			
+			signal(SIGINT, SIG_IGN);
 			if(strcmp(args[0],"cd")==0)
 			{	
 				int fg = chdir(args[1]);
@@ -287,18 +294,18 @@ int main()
 						cout<<"Error while openting file"<<endl;
 						continue;
 					}
-					dup2(file_des,1);
+					dup2(file_des,1); // TO-DO
+					/* check the scope of this command */
+
 					args[1] = (char *)NULL;
 					args[2] = (char *)NULL;
 					execvp(args[0],args);
 				}
-				if(input=="./shell")
-				{
+				if(input=="./shell"){ // this is for settingup the env from bashrc
+
 					setenv("varmap",getmap(expmap).c_str(),1);
 				}
-				if(execvp(args[0], args)==-1)
-				{
-
+				if(execvp(args[0], args)==-1){
 					cout<<"Error in command with error "<<errno;
 				}
 				exit(errno);
@@ -316,8 +323,7 @@ int main()
 			}
 			close(file_des);
 		}
-	}catch(...)
-	{
+	}catch(...){
 		cout<<"Some error occured or invalid command";
 	}
 	}

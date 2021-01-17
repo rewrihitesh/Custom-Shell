@@ -7,7 +7,7 @@ extern unordered_map<string,string> aliasmap;
 void printWecomeMessage()
 {
 	cout<<"\n******************************************"; 
-    cout<<"\n\t****Dh@ma SHELL****"; 
+    cout<<"\n\t****A shell by Hitesh****"; 
 
     cout<<"\n*******************"
         "***********************\n\n";    
@@ -185,8 +185,11 @@ void startRecording()
 	{
 		int fdbuf = open("Buffer.txt", O_RDWR | O_CREAT | O_TRUNC,0644);
 		string input;
+		
 		cout<<varmap["PS1"];
+		
 		getline(cin,input);
+		
 		write(fdrecord, (varmap["PS1"]).c_str(),varmap["PS1"].length());
 		write(fdrecord, (input+"\n").c_str(),input.length()+1);
 
